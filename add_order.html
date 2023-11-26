@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add New Order</title>
+</head>
+<body>
+    <h2>Add New Order</h2>
+    <form action="process_order.php" method="post">
+        <!-- Customer Information -->
+        <label for="customerName">Customer Name:</label>
+        <input type="text" name="customerName" required><br>
+
+        <label for="phoneNumber">Phone Number:</label>
+        <input type="text" name="phoneNumber" required><br>
+
+        <!-- Vehicle Information -->
+        <label for="vehBrand">Vehicle Brand:</label>
+        <input type="text" name="vehBrand" required><br>
+
+        <label for="vehYear">Vehicle Year:</label>
+        <input type="text" name="vehYear" required><br>
+
+        <label for="vehType">Vehicle Type:</label>
+        <input type="text" name="vehType" required><br>
+
+        <!-- Repair Information -->
+        <label for="repairType">Repair Type:</label>
+        <input type="text" name="repairType" required><br>
+
+        <label for="specificType">Specific Type:</label>
+        <input type="text" name="specificType" required><br>
+
+        <label for="duration">Duration:</label>
+        <input type="text" name="duration" required><br>
+
+        <label for="repairCost">Repair Cost:</label>
+        <input type="text" name="repairCost" required><br>
+
+        <!-- Additional Vehicle Information -->
+        <label for="license">License Plate:</label>
+        <input type="text" name="license" required><br>
+
+        <input type="submit" value="Add Order">
+    </form>
+</body>
+</html>
