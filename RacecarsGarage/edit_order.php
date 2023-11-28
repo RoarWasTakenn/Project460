@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Edit Order</title>
+</head>
+
+<body>
+    <h2>Edit Order</h2>
+
+    <?php
+    if ($_SERVER["REQUEST_METHOD"] == "POST") {
+        $orderID = $_POST['orderIDtb'];
+        $name = $_POST['Nametb'];
+        $phoneNumber = $_POST['Phonetb'];
+        $license = $_POST['licensetb'];
+        $vehBrand = $_POST['vehBrandtb'];
+        $vehYear = $_POST['vehYeartb'];
+        $vehType = $_POST['vehTypetb'];
+        $repairType = $_POST['repairTypetb'];
+        $specificType = $_POST['specificTypetb'];
+        $duration = $_POST['durationtb'];
+        $cost = $_POST['costtb'];
+
+        // Your database connection code here
+        $servername = "localhost";
+        $username = "root";
+        $password = "";
+        $dbname = "racetracks";
+
+        $conn = new mysqli($servername, $username, $password, $dbname);
+
+        if ($conn->connect_error) {
+            die("Connection failed: " . $conn->connect_error);
+        }
+
+        // Update data in the orders table
+        $update_order_query = "UPDATE orders SET Name=?, phoneNumber=?, License=?, vehBrand=?, vehYear=?, vehType=?, repairType=?, specificType=?, duration=?, cost=? WHERE orderID=?";
+        $stmt_order = $conn->prepare($update_order_query);
+        $stmt_order->bind_param("ssssssssssi", $name, $phoneNumber, $license, $vehBrand, $vehYear, $vehType, $repairType, $specificType, $duration, $cost, $orderID);
+        $result_order = $stmt_order->execute();
+
+        if ($result_order) {
+            echo "Order updated successfully";
+
+            // Fetch updated order information
+            $select_order_query = "SELECT * FROM orders WHERE orderID=?";
+            $stmt_select_order = $conn->prepare($select_order_query);
+            $stmt_select_order->bind_param("i", $orderID);
+            $stmt_select_order->execute();
+            $result_select_order = $stmt_select_order->get_result();
+            $row = $result_select_order->fetch_assoc();
+
+            // Display updated order information
+            echo "<br>Order ID: " . $row['orderID'];
+            echo "<br>Name: " . $row['Name'];
+            echo "<br>Phone Number: " . $row['phoneNumber'];
+            echo "<br>License: " . $row['License'];
+            echo "<br>Vehicle Brand: " . $row['vehBrand'];
+            echo "<br>Vehicle Year: " . $row['vehYear'];
+            echo "<br>Vehicle Type: " . $row['vehType'];
+            echo "<br>Repair Type: " . $row['repairType'];
+            echo "<br>Specific Type: " . $row['specificType'];
+            echo "<br>Duration: " . $row['duration'];
+            echo "<br>Cost: " . $row['cost'];
+            // Add more fields as needed
+        } else {
+            echo "Error updating order: " . $conn->error;
+        }
+
+        $stmt_order->close();
+        $stmt_select_order->close();
+        $conn->close();
+    }
+    ?>
+
+    <form action="edit_order_test.php" method="post">
+        <label for="orderIDtb">Order ID:</label>
+        <input type="text" name="orderIDtb" readonly>
+
+        <label for="Nametb">Name:</label>
+        <input type="text" name="Nametb">
+
+        <label for="Phonetb">Phone Number:</label>
+        <input type="text" name="Phonetb">
+
+        <label for="licensetb">License:</label>
+        <input type="text" name="licensetb">
+
+        <label for="vehBrandtb">Vehicle Brand:</label>
+        <input type="text" name="vehBrandtb">
+
+        <label for="vehYeartb">Vehicle Year:</label>
+        <input type="text" name="vehYeartb">
+
+        <label for="vehTypetb">Vehicle Type:</label>
+        <input type="text" name="vehTypetb">
+
+        <label for="repairTypetb">Repair Type:</label>
+        <input type="text" name="repairTypetb">
+
+        <label for="specificTypetb">Specific Type:</label>
+        <input type="text" name="specificTypetb">
+
+        <label for="durationtb">Duration:</label>
+        <input type="text" name="durationtb">
+
+        <label for="costtb">Cost:</label>
+        <input type="text" name="costtb">
+
+        <input type="submit" value="Update" name="updatebtn">
+    </form>
+
+</body>
+
+</html>
