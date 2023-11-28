@@ -3,11 +3,11 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Add New Order</title>
+    <title>Edit Order</title>
 </head>
 
 <body>
-    <h2>Add New Order</h2>
+    <h2>Edit Order</h2>
 
     <?php
     // Your database connection code here
@@ -26,41 +26,43 @@
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
         // Validate and sanitize user input
         $orderID = filter_input(INPUT_POST, 'orderID', FILTER_SANITIZE_STRING);
-        $Name = filter_input(INPUT_POST, 'Name', FILTER_SANITIZE_STRING);
-        $phoneNumber = filter_input(INPUT_POST, 'phoneNumber', FILTER_SANITIZE_STRING);
-        // Add more fields as needed
 
         // Use prepared statements to prevent SQL injection
-        $stmt = $conn->prepare("INSERT INTO orders (orderID, Name, phoneNumber) VALUES (?, ?, ?)");
-        $stmt->bind_param("sss", $orderID, $Name, $phoneNumber);
+        $stmt = $conn->prepare("SELECT * FROM orders WHERE orderID = ?");
+        $stmt->bind_param("i", $orderID);
 
         // Execute the statement
-        if ($stmt->execute()) {
-            echo "Order added successfully";
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        if ($result->num_rows > 0) {
+            // Order found, display the form for editing
+            $row = $result->fetch_assoc();
         } else {
-            echo "Error: " . $conn->error;
+            echo "Order not found";
         }
 
         $stmt->close();
     }
+
+    $conn->close();
     ?>
 
-    <form action="" method="post">
-        <!-- Include other necessary input fields for adding here -->
+    <form action="process_edit_order.php" method="post">
+        <!-- Include the necessary input fields for editing (orderID, Name, phoneNumber, and others) here -->
         <label for="orderID">Order ID:</label>
-        <input type="text" name="orderID" required>
+        <input type="text" name="orderID" value="<?php echo $row['orderID']; ?>" readonly>
 
         <label for="Name">Name:</label>
-        <input type="text" name="Name" required>
+        <input type="text" name="Name" value="<?php echo $row['Name']; ?>" required>
 
         <label for="phoneNumber">Phone Number:</label>
-        <input type="text" name="phoneNumber" required>
+        <input type="text" name="phoneNumber" value="<?php echo $row['phoneNumber']; ?>" required>
 
         <!-- Add more input fields as needed -->
 
-        <input type="submit" value="Add Order">
+        <input type="submit" value="Update" name="editOrderForm">
     </form>
-
 </body>
 
 </html>
