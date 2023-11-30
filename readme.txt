@@ -1,22 +1,20 @@
-Files and Directory Structure
-                                    Racecar Garage
-                                    database name is racetracks
-HTML Forms:
-    add_customer.html: Form for adding a new customer.
-    edit_customer.html: Form for editing an existing customer.
-    delete_customer.html: Form for deleting a customer.
 
+HTML Forms:
+	Created htmls to insert/update/delete for both customer/order
+	Created an index.html to act as the homepage.
 
 Processing PHP File:
-    process.php: Handles form submissions and interacts with the database.
-    Ensure you have a database named racetracks with the required tables: 'customer', 'orders', 'repairType', and 'vehicle'.
+	Used a set of process php files to submit forms and update database.
 
 Usage:
-    Ability to INSERT,UPDATE, and Delete from the 'customer' table.
-    Deletes associated order number across tables on delete_customer.
+	Ability to INSERT,UPDATE, and Delete from the 'customer' table.
+    	Deletes associated order number across tables on delete_customer.
+    	Also able to insert/update/delete orders, without altering the customer table.
 
 
 Security:
-    Prepared Statements:    used in queries to prevent SQL injection, prevents user input from being treated as data.
-    Input Validation:   validates input before processing.
-    Standard Error Handling: used error handling in a way that doesn't expose specific details within system.
+    	Prepared Statements:    used in queries to prevent SQL injection, prevents user input from 				being	treated as data.
+    	Input Validation:   	validates input before processing.
+    	
+
+	

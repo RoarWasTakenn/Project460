@@ -14,14 +14,6 @@
         $orderID = $_POST['orderIDtb'];
         $name = $_POST['Nametb'];
         $phoneNumber = $_POST['Phonetb'];
-        $license = $_POST['licensetb'];
-        $vehBrand = $_POST['vehBrandtb'];
-        $vehYear = $_POST['vehYeartb'];
-        $vehType = $_POST['vehTypetb'];
-        $repairType = $_POST['repairTypetb'];
-        $specificType = $_POST['specificTypetb'];
-        $duration = $_POST['durationtb'];
-        $cost = $_POST['costtb'];
 
         // Your database connection code here
         $servername = "localhost";
@@ -36,9 +28,9 @@
         }
 
         // Update data in the orders table
-        $update_order_query = "UPDATE orders SET Name=?, phoneNumber=?, License=?, vehBrand=?, vehYear=?, vehType=?, repairType=?, specificType=?, duration=?, cost=? WHERE orderID=?";
+        $update_order_query = "UPDATE orders SET Name=?, phoneNumber=? WHERE orderID=?";
         $stmt_order = $conn->prepare($update_order_query);
-        $stmt_order->bind_param("ssssssssssi", $name, $phoneNumber, $license, $vehBrand, $vehYear, $vehType, $repairType, $specificType, $duration, $cost, $orderID);
+        $stmt_order->bind_param("ssi", $name, $phoneNumber, $orderID);
         $result_order = $stmt_order->execute();
 
         if ($result_order) {
@@ -56,15 +48,7 @@
             echo "<br>Order ID: " . $row['orderID'];
             echo "<br>Name: " . $row['Name'];
             echo "<br>Phone Number: " . $row['phoneNumber'];
-            echo "<br>License: " . $row['License'];
-            echo "<br>Vehicle Brand: " . $row['vehBrand'];
-            echo "<br>Vehicle Year: " . $row['vehYear'];
-            echo "<br>Vehicle Type: " . $row['vehType'];
-            echo "<br>Repair Type: " . $row['repairType'];
-            echo "<br>Specific Type: " . $row['specificType'];
-            echo "<br>Duration: " . $row['duration'];
-            echo "<br>Cost: " . $row['cost'];
-            // Add more fields as needed
+           
         } else {
             echo "Error updating order: " . $conn->error;
         }
@@ -85,29 +69,6 @@
         <label for="Phonetb">Phone Number:</label>
         <input type="text" name="Phonetb">
 
-        <label for="licensetb">License:</label>
-        <input type="text" name="licensetb">
-
-        <label for="vehBrandtb">Vehicle Brand:</label>
-        <input type="text" name="vehBrandtb">
-
-        <label for="vehYeartb">Vehicle Year:</label>
-        <input type="text" name="vehYeartb">
-
-        <label for="vehTypetb">Vehicle Type:</label>
-        <input type="text" name="vehTypetb">
-
-        <label for="repairTypetb">Repair Type:</label>
-        <input type="text" name="repairTypetb">
-
-        <label for="specificTypetb">Specific Type:</label>
-        <input type="text" name="specificTypetb">
-
-        <label for="durationtb">Duration:</label>
-        <input type="text" name="durationtb">
-
-        <label for="costtb">Cost:</label>
-        <input type="text" name="costtb">
 
         <input type="submit" value="Update" name="updatebtn">
     </form>
